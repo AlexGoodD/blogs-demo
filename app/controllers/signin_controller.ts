@@ -11,10 +11,15 @@ export default class SigninController {
     return view.render('pages/signin')
   }
 
-  public async store({ request, response, view, auth }: HttpContext) {
+  public async store({ request, response, session, auth }: HttpContext) {
     const payload = await request.validateUsing(signinValidator)
-    const user = await User.verifyCredentials(payload.email, payload.password)
-    await auth.use('web').login(user)
-    response.redirect('/')
+    try {
+      const user = await User.verifyCredentials(payload.email, payload.password)
+      await auth.use('web').login(user)
+      response.redirect('/')
+    } catch (e) {
+      session.flash('error', 'Invalid credentials')
+      response.redirect().back()
+    }
   }
 }
