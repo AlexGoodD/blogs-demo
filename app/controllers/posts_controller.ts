@@ -21,4 +21,17 @@ export default class PostsController {
     await post.delete()
     return response.redirect('/')
   }
+
+  public async edit({ view, params }: HttpContext) {
+    const post = await Post.findOrFail(params.id)
+    return view.render('pages/posts/edit_post', { post })
+  }
+
+  public async update({ request, response, params }: HttpContext) {
+    const payload = await request.validateUsing(createPostValidator)
+    const post = await Post.findOrFail(params.id)
+    post.merge(payload)
+    await post.save()
+    return response.redirect('/')
+  }
 }

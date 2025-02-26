@@ -4,14 +4,14 @@
       <h1
         class="mb-4 text-4xl font-extrabold leading-none text-center tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
       >
-        Create post form
+        Edit post form
       </h1>
     </div>
-    <form action="/create-post" method="POST" class="max-w-sm mx-auto">
+    <form action="/posts/{{ post.id }}?_method=PUT" method="POST" class="max-w-sm mx-auto">
       {{ csrfField() }}
       <div class="mb-5">
         <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-        @!component('components/forms/smallForm', { id: 'title', name: 'title', placeholder: 'Enter a title', value: '' } )
+        @!component('components/forms/smallForm', { id: 'title', name: 'title', placeholder: 'Enter a title', value: post.title } )
 
         @inputError('title')
           @each(message in $messages)
@@ -23,7 +23,7 @@
       </div>
       <div class="mb-5">
         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-        @!component('components/forms/extendendForm', { name: 'description', placeholder: 'Your description here', rows: '4', value: '' } )
+        @!component('components/buttons/buttonConfirm', { text: 'View post', href: '/posts/${post.id}/view' } )
 
         @inputError('description')
           @each(message in $messages)

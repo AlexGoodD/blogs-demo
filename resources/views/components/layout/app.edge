@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>
-      AdonisJS - A fully featured web framework for Node.js
+      UANLog
     </title>
 
     <link rel="preconnect" href="https://fonts.bunny.net" />
@@ -30,7 +30,9 @@
       }
     </style>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+      
+    </script>
 
     <script>
       tailwind.config = {
@@ -68,6 +70,6 @@
     @stack('dumper')
   </head>
   <body>
-  {{{ await $slots.main() }}}
-</body>
+    {{{ await $slots.main() }}}
+  </body>
 </html>
