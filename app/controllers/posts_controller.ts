@@ -34,4 +34,9 @@ export default class PostsController {
     await post.save()
     return response.redirect('/')
   }
+
+  public async view({ view, request, params }: HttpContext) {
+    const post = await Post.findOrFail(params.id)
+    return view.render('pages/posts/view_post', { post })
+  }
 }
