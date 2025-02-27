@@ -30,4 +30,7 @@
       />
     </svg>
   </a>
+  <form action="/posts/{{ id }}?_method=DELETE" method="POST">
+    @!component('components/buttons/buttonDelete', {id: id, text: 'Delete'})
+  </form>
 </div>
