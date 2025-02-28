@@ -4,19 +4,25 @@
       <h1
         class="mb-4 text-4xl font-extrabold leading-none text-center tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
       >
-        View
+        {{ post.title }}
       </h1>
+      <h1
+        class="mb-4 text-4xl font-extrabold leading-none text-center tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
+      >
+        Written by: {{ post.user.fullName }}
+      </h1>
+
+      <p
+        class="mb-4 text-2xl font-extrabold leading-none text-center tracking-tight text-gray-900 md:text-5xl lg:text-3xl dark:text-white"
+      >
+        {{ post.description }}
+      </p>
+      {{-- Si el usuario autenticado es el mismo que el creador del post, entonces habilitar botón de edición, de caso contrario no --}}
+      @if(auth.user.id == post.user.id)
+        @!component('./components/buttons/buttonCancel', {text: 'Edit post', href: `/posts/${ post.id }/edit`})
+        {{-- Necesito poder proteger esta ruta --}}
+      @endif
     </div>
-    <form action="/posts/{{ post.id }}?_method=PUT" method="POST" class="max-w-sm mx-auto">
-      {{ csrfField() }}
-      <div class="mb-5">
-        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-        @!component('components/forms/smallForm', { id: 'title', name: 'title', placeholder: 'Enter a title', value: post.title, readonly:true } )
-      </div>
-      <div class="mb-5">
-        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-        @!component('components/forms/extendendForm', { name: 'description', placeholder: 'Your description here', rows: '4', value: post.description, readonly:true } )
-      </div>
-    </form>
   </div>
+
 @end

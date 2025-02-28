@@ -28,4 +28,5 @@ router.get('/signup', [SignupController, 'index'])
 router.post('/signup', [SignupController, 'store'])
 
 router.get('/posts/:id/edit', [PostsController, 'edit']).use(middleware.auth())
+router.get('/posts/:id/view', [PostsController, 'view']).use(middleware.auth())
 router.put('/posts/:id', [PostsController, 'update']).use(middleware.auth())
