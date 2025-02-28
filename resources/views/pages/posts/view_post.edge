@@ -17,6 +17,26 @@
       >
         {{ post.description }}
       </p>
+      <form action="/create-comment" method="POST" class="max-w-sm mx-auto">
+        {{ csrfField() }}
+        <input type="hidden" name="postId" value="{{ post.id }}">
+        <div class="mb-5">
+          <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comment</label>
+          @!component('components/forms/extendendForm', { name: 'comment', placeholder: '...', rows: '4', value: '' } )
+          @inputError('comment')
+            @each(message in $messages)
+              <p>
+                {{ message }}
+              </p>
+            @end
+          @end
+
+        </div>
+        <button type="submit">Submit comment</button>
+      </form>
+      @each(comment in comments)
+      {{comment.comment}}
+      @end
       {{-- Si el usuario autenticado es el mismo que el creador del post, entonces habilitar botón de edición, de caso contrario no --}}
       @if(auth.user.id == post.user.id)
         @!component('./components/buttons/buttonCancel', {text: 'Edit post', href: `/posts/${ post.id }/edit`})
