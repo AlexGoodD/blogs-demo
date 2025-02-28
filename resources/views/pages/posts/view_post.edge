@@ -17,25 +17,38 @@
       >
         {{ post.description }}
       </p>
-      <form action="/create-comment" method="POST" class="max-w-sm mx-auto">
-        {{ csrfField() }}
-        <input type="hidden" name="postId" value="{{ post.id }}">
-        <div class="mb-5">
-          <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comment</label>
-          @!component('components/forms/extendendForm', { name: 'comment', placeholder: '...', rows: '4', value: '' } )
-          @inputError('comment')
-            @each(message in $messages)
-              <p>
-                {{ message }}
-              </p>
-            @end
-          @end
 
+      <h1 class="flex items-center text-3xl font-extrabold dark:text-white ml-8 mt-8">Comment section</h1>
+      <div class="ml-8">
+        <form action="/create-comment" method="POST" class="grid sm:grid-cols-2">
+          {{ csrfField() }}
+          <input type="hidden" name="postId" value="{{ post.id }}">
+          <input type="hidden" name="userEmail" value="{{ auth.user.email }}">
+          <div class="mb-5">
+            @!component('components/forms/extendendForm', { name: 'comment', placeholder: 'Typing...!', rows: '4', value: '' } )
+            @inputError('comment')
+              @each(message in $messages)
+                <p>
+                  {{ message }}
+                </p>
+              @end
+            @end
+          </div>
+          <button type="submit">Submit comment</button>
+        </form>
         </div>
-        <button type="submit">Submit comment</button>
-      </form>
       @each(comment in comments)
-      {{comment.comment}}
+      {{--Para que el comentario solo salga en el post el cual tiene anidado--}}
+      @if(post.id == comment.postId)
+      <div class="ml-8">
+        <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+          <div class="flex flex-col pb-3">
+              <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{comment.userEmail}}, {{comment.createdAt}}</dt>
+              <dd class="text-lg font-semibold">{{comment.comment}}</dd>
+          </div>
+        </dl>
+      </div>
+      @end
       @end
       {{-- Si el usuario autenticado es el mismo que el creador del post, entonces habilitar botón de edición, de caso contrario no --}}
       @if(auth.user.id == post.user.id)

@@ -14,6 +14,9 @@ export default class Comment extends BaseModel {
   declare userId: number
 
   @column()
+  declare userEmail: number
+
+  @column()
   declare postId: number
 
   @belongsTo(() => User, { foreignKey: 'userId' })

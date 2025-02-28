@@ -11,7 +11,8 @@ export default class CommentsController {
   public async store({ request, response, auth }: HttpContext) {
     const payload = await request.validateUsing(createCommentValidator)
     const postId = request.input('postId')
-    await Comment.create({ ...payload, userId: auth.user!.id, postId })
+    const userEmail = request.input('userEmail')
+    await Comment.create({ ...payload, userId: auth.user!.id, postId, userEmail })
     return response.redirect(`/posts/${postId}/view`)
   }
 }

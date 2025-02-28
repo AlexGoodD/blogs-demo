@@ -5,25 +5,15 @@ import Post from '#models/post'
 
 export default class extends BaseSeeder {
   async run() {
-    const user = await User.create({
-      fullName: 'John Doe',
-      email: 'FINAL??@gmail.com',
-      password: 'asdasd',
-    })
-
-    const posts = await Post.createMany([
-      {
-        title: 'Hello world',
-        userId: user.id,
-        description: 'This is a test post',
-      },
-    ])
+    // Fetch existing user and post
+    const user = await User.findByOrFail('email', 'FINAL??@gmail.com')
+    const post = await Post.findByOrFail('title', 'Hello world')
 
     await Comment.createMany([
       {
         userId: user.id,
         comment: 'This is a test comment for post 1',
-        postId: posts[0].id,
+        postId: post.id,
       },
     ])
   }
