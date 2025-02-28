@@ -16,6 +16,10 @@ export class PostsList extends BasePage {
   }
 
   async editPost() {
+    await this.page.getByRole('button', { name: 'Edit post' }).click()
+  }
+
+  async updatePost() {
     await this.page.getByRole('button', { name: 'Create post' }).click()
   }
 
