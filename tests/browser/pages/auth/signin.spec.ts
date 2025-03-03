@@ -9,7 +9,7 @@ test.group('Signin page', (group) => {
     // Given
     const page = await visit(SigninPage)
     const user = await User.create({
-      email: 'axel@gmail.com',
+      email: 'axelqwqw@gmail.com',
       password: 'asdasd',
     })
     // When

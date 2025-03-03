@@ -41,5 +41,5 @@ test.group('Signup page', (group) => {
     await page.page.assertTextContains('body', 'The fullName field must be defined')
     await page.page.assertTextContains('body', 'The email field must be defined')
     await page.page.assertTextContains('body', 'The password field must be defined')
-  }).pin()
+  })
 })
