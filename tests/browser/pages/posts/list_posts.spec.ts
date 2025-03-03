@@ -6,17 +6,18 @@ import { UserFactory } from '#database/factories/user_factory'
 import { PostFactory } from '#database/factories/post_factory'
 
 test.group('Posts page', (group) => {
-  group.each.setup(() => testUtils.db().withGlobalTransaction())
+  //group.each.setup(() => testUtils.db().withGlobalTransaction())
   test('creation posts', async ({ assert, browserContext, visit }) => {
     // Given
     const user = await UserFactory.create()
-    const posts = await PostFactory.createMany(1)
+    const posts = await PostFactory.createMany(4)
     await browserContext.loginAs(user)
     const page = await visit(PostsList)
-    await page.page.pause()
     // When
+    const postCount = await page.countPosts() //Cuenta el número de post
     // Then
-  })
+    assert.equal(postCount, 6) //Verifica que el número de post sea 4
+  }).pin()
 
   test('delete posts', async ({ assert, browserContext, visit }) => {
     // Given
@@ -30,7 +31,7 @@ test.group('Posts page', (group) => {
     const postCount = await page.countPosts() //Cuenta el número de post
     // Then
     assert.equal(postCount, 2) //Verifica que el número de post sea 4
-  }).pin()
+  })
   test('edit posts', async ({ assert, browserContext, visit }) => {
     //(Actualmente tiene que entrar al post para poder verificar el cambio, mejorar eso)
     // Given
