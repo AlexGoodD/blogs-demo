@@ -36,13 +36,14 @@ export default class PostsController {
     return response.redirect('/')
   }
 
-  public async edit({ params, response, bouncer }: HttpContext) {
+  public async edit({ view, params, auth, response }: HttpContext) {
     const post = await Post.findOrFail(params.id)
-
-    if (await bouncer.allows(editPost, post)) {
-      return response.redirect(`/posts/${post.id}/edit`)
+    // Si el usuario actual no es el dueño del post, e intenta acceder a la ruta de edición, redirigirlo a la vista del post
+    // ¿Como se puede mejorar esto?/Protegerlo mejor, bouncer me redirecciona mucho verificar
+    if (post.userId !== auth.user!.id) {
+      return response.redirect(`/posts/${post.id}/view`)
     }
-    return response.redirect(`/posts/${post.id}/view`)
+    return view.render('pages/posts/edit_post', { post })
   }
 
   public async update({ request, response, params }: HttpContext) {
@@ -54,7 +55,6 @@ export default class PostsController {
   }
 
   public async view({ view, params }: HttpContext) {
-    console.log('Entered view')
     const post = await Post.query()
       .where('id', params.id)
       .preload('user')

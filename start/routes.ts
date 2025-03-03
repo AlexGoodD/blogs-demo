@@ -16,7 +16,6 @@ const LogoutController = () => import('#controllers/logout_controller')
 const CommentsController = () => import('#controllers/comments_controller')
 
 router.get('/', [PostsController, 'index']).use(middleware.auth())
-//router.on('/').renderInertia('home')
 router.get('/create-post', [PostsController, 'create']).use(middleware.auth())
 router.post('/create-post', [PostsController, 'store']).use(middleware.auth())
 router.delete('/posts/:id', [PostsController, 'destroy']).use(middleware.auth())

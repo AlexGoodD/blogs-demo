@@ -1,12 +1,11 @@
 @layout.app()
-
   <div class="bg-gray-50 px-56 pt-8 h-screen mt-16">
     @!component('components/extra/HomeNav')
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
       @each(post in posts)
         <form action="/posts/{{ post.id }}?_method=DELETE" method="POST">
           {{ csrfField() }}
-          @!component('components/cardPost', {id: post.id, title: post.title, description: post.description})
+          @!component('components/cardPost', {id: post.id, title: post.title, email: post.userEmail, createdAt: post.formattedCreatedAt, description: post.description, userId: post.userId})
         </form>
       @end
     </div>

@@ -1,15 +1,25 @@
 <div
-  class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
+  class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 h-96 flex flex-col justify-between"
 >
-  <a href="#">
-    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-      {{ title }}
-    </h5>
-  </a>
-  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-    {{ description }}
-  </p>
-  @!component('components/buttons/buttonConfirm', {name: 'Read', text: 'Read more', href: `/posts/${id}/view`})
+  <div>
+    <a href="#">
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        {{ title.slice(0, 23) + '...' }}
+      </h5>
+      <h5 class="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white">
+        {{ email.slice(0, 15) + '...' }}, {{ createdAt }}
+      </h5>
+    </a>
+    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+      {{ description.slice(0, 250) }}
+    </p>
+  </div>
+  <div class="mt-auto">
+    @!component('components/buttons/buttonConfirm', {name: 'Read', text: 'Read more', href: `/posts/${id}/view`})
 
-  @!component('components/buttons/buttonDelete', {name: 'Delete', text: 'Delete post'})
+    {{-- Ocupa validar si el usuario es creador o no del post para mostrar botón de delete del post --}}
+    @if(userId === auth.user.id)
+      @!component('components/buttons/buttonDelete', {name: 'Delete', text: 'Delete post'})
+    @endif
+  </div>
 </div>

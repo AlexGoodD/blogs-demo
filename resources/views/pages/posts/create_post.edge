@@ -8,6 +8,7 @@
       </h1>
     </div>
     <form action="/create-post" method="POST" class="max-w-sm mx-auto">
+      <input type="hidden" name="userEmail" value="{{ auth.user.email }}">
       {{ csrfField() }}
       <div class="mb-5">
         <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
@@ -24,7 +25,6 @@
       <div class="mb-5">
         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
         @!component('components/forms/extendendForm', { name: 'description', placeholder: 'Your description here', rows: '4', value: '' } )
-
         @inputError('description')
           @each(message in $messages)
             <p>
@@ -32,7 +32,7 @@
             </p>
           @end
         @end
-        
+
       </div>
       <button type="submit">Create post</button>
     </form>

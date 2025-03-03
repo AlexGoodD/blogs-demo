@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { column, BaseModel, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import { column, BaseModel, belongsTo, hasMany, computed } from '@adonisjs/lucid/orm'
 import User from '#models/user'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Comment from './comment.js'
@@ -31,4 +31,10 @@ export default class Post extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @computed()
+  get formattedCreatedAt(): string {
+    //return this.createdAt ? this.createdAt.toFormat('EEEE, MMMM dd, yyyy hh:mm a') : '' //Day, Month, Number, Year, Hour:Minute AM/PM
+    return this.createdAt ? this.createdAt.toFormat('yy/MM/dd, hh:mm a') : '' //Day, Month, Number, Year, Hour:Minute AM/PM
+  }
 }

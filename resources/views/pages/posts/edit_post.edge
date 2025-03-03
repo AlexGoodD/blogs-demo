@@ -1,39 +1,41 @@
 @layout.app()
-  <div>
-    <div class="max-w-m mx-auto">
+<div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
+  <div class="max-w-m mx-auto">
       <h1
         class="mb-4 text-4xl font-extrabold leading-none text-center tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
       >
-        Edit post form
+        Edit Post
       </h1>
     </div>
     <form action="/posts/{{ post.id }}?_method=PUT" method="POST" class="max-w-sm mx-auto">
       {{ csrfField() }}
       <div class="mb-5">
-        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-        @!component('components/forms/smallForm', { id: 'title', name: 'title', placeholder: 'Enter a title', value: post.title } )
+        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post Title</label>
+        @!component('components/forms/smallForm', { id: 'title', name: 'title', placeholder: 'Enter a compelling title…', value: post.title } )
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="helper_title">Keep it concise and engaging (max 100 characters).</p>
         @inputError('title')
           @each(message in $messages)
-            <p>
+            <p class="text-red-500 text-sm mt-2">
               {{ message }}
             </p>
           @end
         @end
       </div>
       <div class="mb-5">
-        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-        @!component('components/forms/extendendForm', { name: 'description', placeholder: 'Your description here', rows: '4', value: post.description } )
-
+        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post Description</label>
+        @!component('components/forms/extendendForm', { name: 'description', placeholder: 'Write a detailed description of your post…', rows: '10', value: post.description } )
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="helper_description">Provide clear and engaging content (max 500 characters).</p>
         @inputError('description')
           @each(message in $messages)
-            <p>
+            <p class="text-red-500 text-sm mt-2">
               {{ message }}
             </p>
           @end
         @end
-        
+
       </div>
-      <button type="submit">Create post</button>
+      <button type="submit"   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+      >Update Post</button>
     </form>
   </div>
 @end
