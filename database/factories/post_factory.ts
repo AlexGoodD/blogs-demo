@@ -9,6 +9,7 @@ export const PostFactory = factory
       title: faker.lorem.sentence(),
       description: faker.lorem.paragraphs(1),
       userId: user.id, // Set the user_id
+      userEmail: user.email, // Set the user_id
     }
   })
   .build()
