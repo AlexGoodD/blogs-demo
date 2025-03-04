@@ -21,8 +21,12 @@ export default class UsersController {
   public async update({ request, response, params }: HttpContext) {
     const payload = await request.validateUsing(createUserValidator)
     const user = await User.findOrFail(params.id)
+
+    if (payload.password === '') {
+      delete payload.password
+    }
     user.merge(payload)
     await user.save()
-    return response.redirect('/')
+    return response.redirect('/profile/')
   }
 }
