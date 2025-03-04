@@ -1,0 +1,31 @@
+@layout.app()
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+    <div class="mt-10">
+      <h1 class="mb-4 text-4xl font-extrabold leading-none text-left tracking-tight text-gray-900 md:text-3xl lg:text-5xl dark:text-white">
+        Profile
+      </h1>
+      <h2 class="mb-4 text-3xl font-extrabold leading-none text-left tracking-tight text-gray-900 md:text-5xl lg:text-3xl dark:text-white">
+        A section to manage your profile, change your password and more.
+      </h2>
+    </div>
+    <div class="h-[800px] w-full flex flex-col space-y-4 overflow-y-auto dark:bg-gray-900 p-4 rounded-lg mt-10">
+      <h1 class="text-3xl font-extrabold dark:text-white mb-4">Info details</h1>
+
+      <form class="grid sm:grid-cols-1 mb-4">
+        <div class="mb-5">
+          <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full name</label>
+          <input type="text" class="form-control form-control-lg" id="fullName" placeholder="{{auth.user.fullName}}" disabled>
+        </div>
+        <div class="mb-5">
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+          <input type="email" class="form-control form-control-lg" id="email" placeholder="{{auth.user.email}}" disabled>
+        </div>
+          {{--<label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full name</label>--}}
+          {{--<label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full name</label>--}}
+
+        @!component('./components/buttons/buttonCancel', {text: 'Edit Profile', href: `/profile/${ auth.user.id }/edit`})
+
+      </form>
+    </div>
+</div>
+@end
