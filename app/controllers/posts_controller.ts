@@ -16,7 +16,6 @@ export default class PostsController {
   }
 
   public async create({ inertia }: HttpContext) {
-    console.log('Entered create')
     return inertia.render('create_post')
   }
 
