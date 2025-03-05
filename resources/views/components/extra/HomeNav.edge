@@ -8,13 +8,17 @@
     <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
       @!component('components/buttons/buttonConfirm', { text: 'Create post', href: '/create-post' } )
       <div>
+      @!component('components/buttons/buttonConfirm', { text: 'Profile', href: '/profile' } )
+      </div>
+
+      <div>
         @if (auth.user)
           <form method="POST" action="{{ route('logout') }}">
             {{ csrfField() }}
             @!component('components/buttons/buttonAlternative', {type: 'submit', text: 'Logout', href: '' } )
-
           @end
         </form>
       </div>
     </div>
+  </div>
   </nav>
