@@ -1,4 +1,5 @@
 @layout.app()
+@!component('./components/extra/OtherNav')
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
     <div class="mt-10">
       <h1 class="mb-4 text-4xl font-extrabold leading-none text-left tracking-tight text-gray-900 md:text-3xl lg:text-5xl dark:text-white">
@@ -10,8 +11,23 @@
     </div>
     <div class="h-[800px] w-full flex flex-col space-y-4 overflow-y-auto dark:bg-gray-900 p-4 rounded-lg mt-10">
       <h1 class="text-3xl font-extrabold dark:text-white mb-4">Info details</h1>
-      <form action="/profile/{{ user.id }}?_method=PUT" method="POST" class="grid sm:grid-cols-1 mb-4">
+      <form action="/profile/{{ user.id }}?_method=PUT" method="POST" enctype="multipart/form-data" class="grid sm:grid-cols-1 mb-4">
       {{ csrfField() }}
+      <div class="mb-5">
+        <div class="relative w-40 h-40 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+          <img src="{{ auth.user.avatarUrl }}" class="h-full w-full object-cover object-center" />
+        </div>
+        <label for="avatar" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Avatar</label>
+        <input id="avatar" type="file" name="avatar"/>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG or JPG (MAX. 800x800px).</p>
+      </div>
+      @inputError('avatar')
+      @each(message in $messages)
+        <p class="text-red-500 text-sm mt-2 mb-4">
+          {{ message }}
+        </p>
+      @end
+    @end
         <div class="mb-5">
           <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
         @!component('components/forms/smallForm', { id: 'fullName', name: 'fullName', placeholder: 'John Doe', value: user.fullName } )
@@ -27,27 +43,24 @@
           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
           @!component('components/forms/smallForm', { id: 'email', name: 'email', type: 'email', placeholder: 'john@gmail.com', value: user.email } )
         </div>
+
+        {{-- Error de email duplicado, como lo puedo hacer en un Validador --}}
+        @if(errorMessage)
+        <p class="text-red-500 text-sm mt-2 mb-4">
+          {{ errorMessage }}
+        </p>
+      @else
         @inputError('email')
-        @each(message in $messages)
-          <p class="text-red-500 text-sm mt-2 mb-4">
-            {{ message }}
-          </p>
-        @end
-      @end
+    @each(message in $messages)
+      <p class="text-red-500 text-sm mt-2 mb-4">
+        {{ message }}
+      </p>
+    @end
+  @end
+@end
         <div class="mb-5">
           <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
-          @!component('components/forms/smallForm', { id: 'password', name: 'password', type: 'password', placeholder: "Don't look...!" } )
-        </div>
-        @inputError('password')
-        @each(message in $messages)
-          <p class="text-red-500 text-sm mt-2 mb-4">
-            {{ message }}
-          </p>
-        @end
-      @end
-        <div class="mb-5">
-          <label for="cpassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm New Password</label>
-          @!component('components/forms/smallForm', { id: 'cpassword', name: 'cpassword', type: 'password', placeholder: "Don't look...!" } )
+          @!component('components/forms/smallForm', { id: 'password', name: 'password', type: 'password', placeholder: 'Make a strong password!' } )
         </div>
         @inputError('password')
         @each(message in $messages)

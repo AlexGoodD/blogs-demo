@@ -15,6 +15,10 @@ const PostsController = () => import('#controllers/posts_controller')
 const LogoutController = () => import('#controllers/logout_controller')
 const CommentsController = () => import('#controllers/comments_controller')
 const UserController = () => import('#controllers/users_controller')
+const AvatarController = () => import('#controllers/avatars_controller')
+
+//Avatar
+router.get('/avatars/:fileName', [AvatarController, 'show']).use(middleware.auth())
 
 //Post
 router.get('/', [PostsController, 'index']).use(middleware.auth())

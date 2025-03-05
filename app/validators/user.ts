@@ -3,8 +3,9 @@ import vine from '@vinejs/vine'
 export const createUserValidator = vine.compile(
   vine.object({
     fullName: vine.string().trim().minLength(6).maxLength(100),
-    email: vine.string().email().trim().minLength(6),
-    password: vine.string().trim().minLength(6).maxLength(100).confirmed().optional(),
-    //cpassword: vine.string().trim().escape().sameAs('password'), //Ocupo incluirla en el modelo
+    email: vine.string().trim().minLength(10),
+    password: vine.string().trim().minLength(6).maxLength(100).optional(),
+    avatar: vine.file({ extnames: ['svg', 'png', 'jpg', 'jpeg'], size: '5mb' }).optional(),
+    avatarUrl: vine.string().optional(),
   })
 )
