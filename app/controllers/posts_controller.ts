@@ -35,7 +35,7 @@ export default class PostsController {
     return response.redirect('/')
   }
 
-  public async edit({ view, params, auth, response, bouncer }: HttpContext) {
+  public async edit({ view, params, response, bouncer }: HttpContext) {
     const post = await Post.findOrFail(params.id)
 
     if (await bouncer.allows(editPost, post)) {
