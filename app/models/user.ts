@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Post from './post.js'
@@ -39,4 +39,18 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+
+  @computed()
+  get formattedCreatedAt(): string {
+    return this.createdAt
+      ? this.createdAt.setZone('America/Mexico_City').toFormat('yy/MM/dd, hh:mm a')
+      : '' //Day, Month, Number, Year, Hour:Minute AM/PM
+  }
+
+  @computed()
+  get formattedUpdatedAt(): string {
+    return this.updatedAt
+      ? this.updatedAt.setZone('America/Mexico_City').toFormat('yy/MM/dd, hh:mm a')
+      : ''
+  }
 }

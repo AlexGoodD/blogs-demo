@@ -34,7 +34,15 @@ export default class Comment extends BaseModel {
 
   @computed()
   get formattedCreatedAt(): string {
-    //return this.createdAt ? this.createdAt.toFormat('EEEE, MMMM dd, yyyy hh:mm a') : '' //Day, Month, Number, Year, Hour:Minute AM/PM
-    return this.createdAt ? this.createdAt.toFormat('yy/MM/dd, hh:mm a') : '' //Day, Month, Number, Year, Hour:Minute AM/PM
+    return this.createdAt
+      ? this.createdAt.setZone('America/Mexico_City').toFormat('yy/MM/dd, hh:mm a')
+      : '' //Day, Month, Number, Year, Hour:Minute AM/PM
+  }
+
+  @computed()
+  get formattedUpdatedAt(): string {
+    return this.updatedAt
+      ? this.updatedAt.setZone('America/Mexico_City').toFormat('yy/MM/dd, hh:mm a')
+      : ''
   }
 }
