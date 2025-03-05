@@ -20,7 +20,7 @@ export class PostsList extends BasePage {
   }
 
   async updatePost() {
-    await this.page.getByRole('button', { name: 'Create post' }).click()
+    await this.page.getByRole('button', { name: 'Update Post' }).click()
   }
 
   //Contar número de posts
