@@ -1,6 +1,6 @@
 @layout.app()
+@!component('components/extra/HomeNav')
   <div class="bg-gray-50 px-56 pt-8 h-screen mt-16">
-    @!component('components/extra/HomeNav')
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
       @each(post in posts)
         <form action="/posts/{{ post.id }}?_method=DELETE" method="POST">
