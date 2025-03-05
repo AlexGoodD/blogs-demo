@@ -2,7 +2,11 @@ import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 import { createUserValidator } from '#validators/user'
 import app from '@adonisjs/core/services/app'
-import { errorMessages } from 'vue/compiler-sfc'
+import { Bouncer } from '@adonisjs/bouncer'
+
+export const editProfile = Bouncer.ability((user: User, authUser: User) => {
+  return user.id === authUser.id
+})
 
 export default class UsersController {
   public async view({ view }: HttpContext) {
@@ -10,14 +14,13 @@ export default class UsersController {
     return view.render('pages/user/profile', { user })
   }
 
-  public async edit({ view, params, auth, response }: HttpContext) {
+  public async edit({ view, params, response, bouncer }: HttpContext) {
     const user = await User.findOrFail(params.id)
-    // Si el usuario actual no es el dueño del post, e intenta acceder a la ruta de edición, redirigirlo a la vista del post
-    // ¿Como se puede mejorar esto?/Protegerlo mejor, bouncer me redirecciona mucho verificar
-    if (user.id !== auth.user!.id) {
-      return response.redirect(`/profile/`)
+
+    if (await bouncer.allows(editProfile, user)) {
+      return view.render('pages/user/editProfile', { user })
     }
-    return view.render('pages/user/editProfile', { user })
+    return response.redirect(`/profile/`)
   }
 
   public async update({ request, response, params, auth, view }: HttpContext) {
@@ -39,8 +42,8 @@ export default class UsersController {
 
       return response.redirect('/profile/')
     } catch (error) {
+      // ¿Como puedo lograr que detecte error de email duplicado? + editProfile.edge
       if (error.code === '23505') {
-        console.log('Email already exists')
         return view.render('pages/user/editProfile', { user, errorMessage: 'Email already exists' })
       }
       return view.render('pages/user/editProfile', { user })
