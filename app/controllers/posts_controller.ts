@@ -2,12 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Post from '#models/post'
 import { createPostValidator } from '#validators/posts'
 import Comment from '#models/comment'
-import { Bouncer } from '@adonisjs/bouncer'
-import User from '#models/user'
-
-export const editPost = Bouncer.ability((user: User, post: Post) => {
-  return user.id === post.userId
-})
+import { editPost } from '#abilities/main'
 
 export default class PostsController {
   public async index({ view }: HttpContext) {

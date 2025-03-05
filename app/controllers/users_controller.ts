@@ -2,11 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 import { createUserValidator } from '#validators/user'
 import app from '@adonisjs/core/services/app'
-import { Bouncer } from '@adonisjs/bouncer'
-
-export const editProfile = Bouncer.ability((user: User, authUser: User) => {
-  return user.id === authUser.id
-})
+import { editProfile } from '#abilities/main'
 
 export default class UsersController {
   public async view({ view }: HttpContext) {
