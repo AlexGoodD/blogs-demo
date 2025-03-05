@@ -9,7 +9,7 @@ test.group('Signup page', (group) => {
     // Given
     const page = await visit(SignupPage)
     // When
-    await page.fillForm('testeo_nombre', 'testeo@email.com', 'DASDASDAS')
+    await page.fillForm('testeo_nombre', 'testeoing@email.com', 'DASDASDAS')
     await page.register()
 
     // Then
