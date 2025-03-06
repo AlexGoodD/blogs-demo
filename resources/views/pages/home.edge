@@ -5,7 +5,7 @@
       @each(post in posts)
         <form action="/posts/{{ post.id }}?_method=DELETE" method="POST">
           {{ csrfField() }}
-          @!component('components/cardPost', {id: post.id, title: post.title, email: post.userEmail, createdAt: post.formattedCreatedAt, description: post.description, userId: post.userId})
+          @!component('components/cardPost', {id: post.id, title: post.title, email: post.user?.email, createdAt: post.formattedCreatedAt, description: post.description, userId: post.userId})
         </form>
       @end
     </div>

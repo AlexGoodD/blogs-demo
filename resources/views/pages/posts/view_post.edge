@@ -46,7 +46,7 @@
           @each(comment in post.comments)
             <div class="p-3 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm">
               @!component('./components/commentCard', {
-                userEmail: comment.userEmail,
+                userEmail: comment.user?.email,
                 createdAt: comment.formattedCreatedAt,
                 comment: comment.comment
               })

@@ -1,12 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Post from '#models/post'
 import { createPostValidator } from '#validators/posts'
-import Comment from '#models/comment'
 import { editPost } from '#abilities/main'
 
 export default class PostsController {
   public async index({ view }: HttpContext) {
-    const posts = await Post.all()
+    const posts = await Post.query().preload('user')
     return view.render('pages/home', { posts })
   }
 
@@ -14,30 +13,28 @@ export default class PostsController {
     return inertia.render('create_post')
   }
 
+  //Se puede acceder a datos del usuario con un preload ej. post.user.email
   public async store({ request, inertia, auth }: HttpContext) {
     const payload = await request.validateUsing(createPostValidator)
-    await Post.create({ ...payload, userId: auth.user!.id, userEmail: auth.user!.email })
+    await Post.create({ ...payload, userId: auth.user!.id })
     return inertia.location('/') // Redirección completa
   }
 
   public async destroy({ request, response }: HttpContext) {
     const postId = request.param('id')
     const post = await Post.findOrFail(postId)
-
-    await Comment.query().where('postId', postId).delete()
-
+    //await Comment.query().where('postId', postId).delete()
     await post.delete()
     return response.redirect('/')
   }
 
   public async edit({ view, params, response, bouncer }: HttpContext) {
-    const post = await Post.findOrFail(params.id)
+    const post = await Post.query().where('id', params.id).preload('user').firstOrFail()
 
-    if (await bouncer.allows(editPost, post)) {
-      return view.render('pages/posts/edit_post', { post })
+    if (await bouncer.denies(editPost, post)) {
+      return response.redirect(`/posts/${post.id}/view`)
     }
-
-    return response.redirect(`/posts/${post.id}/view`)
+    return view.render('pages/posts/edit_post', { post })
   }
 
   public async update({ request, response, params }: HttpContext) {
@@ -52,9 +49,12 @@ export default class PostsController {
     const post = await Post.query()
       .where('id', params.id)
       .preload('user')
-      .preload('comments')
+      .preload('comments', (query) => {
+        query.preload('user', (userQuery) => {
+          userQuery.select('id', 'email') // Asegura que se carga el email del usuario
+        })
+      })
       .firstOrFail()
-    // const comments = await Comment.query().exec()
     return view.render('pages/posts/view_post', { post })
   }
 }

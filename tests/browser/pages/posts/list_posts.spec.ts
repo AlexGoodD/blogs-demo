@@ -56,5 +56,5 @@ test.group('Posts page', (group) => {
     await page.read(0)
     await page.editPost()
     await page.page.assertTextContains('Post Description', text)
-  }).pin()
+  })
 })

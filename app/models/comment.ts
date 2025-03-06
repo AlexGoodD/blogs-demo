@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon'
 import { BaseModel, column, belongsTo, computed } from '@adonisjs/lucid/orm'
 import User from '#models/user'
 import Post from '#models/post'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { DateTime } from 'luxon'
 
 export default class Comment extends BaseModel {
   @column({ isPrimary: true })
@@ -15,15 +15,12 @@ export default class Comment extends BaseModel {
   declare userId: number
 
   @column()
-  declare userEmail: string
-
-  @column()
   declare postId: number
 
-  @belongsTo(() => User, { foreignKey: 'userId' })
+  @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
 
-  @belongsTo(() => Post, { foreignKey: 'postId' })
+  @belongsTo(() => Post)
   declare post: BelongsTo<typeof Post>
 
   @column.dateTime({ autoCreate: true })

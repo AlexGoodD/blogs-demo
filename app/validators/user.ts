@@ -9,3 +9,12 @@ export const createUserValidator = vine.compile(
     avatarUrl: vine.string().optional(),
   })
 )
+
+export const updateUserValidator = vine.compile(
+  vine.object({
+    fullName: vine.string().trim().minLength(6).maxLength(100),
+    email: vine.string().trim().minLength(10),
+    avatar: vine.file({ extnames: ['svg', 'png', 'jpg', 'jpeg'], size: '5mb' }).optional(),
+    avatarUrl: vine.string().optional(),
+  })
+)
